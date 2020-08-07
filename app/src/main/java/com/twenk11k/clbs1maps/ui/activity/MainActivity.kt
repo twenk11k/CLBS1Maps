@@ -7,7 +7,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
 import com.twenk11k.clbs1maps.R
 import com.twenk11k.clbs1maps.databinding.ActivityMainBinding
 import com.twenk11k.clbs1maps.ui.util.Utils.Companion.getZoomLevel
