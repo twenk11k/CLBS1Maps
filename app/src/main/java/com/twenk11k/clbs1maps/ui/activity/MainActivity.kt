@@ -53,6 +53,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
             MaterialDialog(this).show {
                 title(R.string.please_enter_details)
                 customView(R.layout.dialog_search)
+                negativeButton(R.string.close)
                 positiveButton(R.string.search) {
                     val customView = getCustomView()
                     val textLatitude =
@@ -72,10 +73,9 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(testlat, testlng, testrad)
+                    handleOperation(lat, lng, testrad)
 
                 }
-                negativeButton(R.string.close)
             }
         }
     }
@@ -83,14 +83,15 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private fun handleOperation(lat: Double, lng: Double, radius: Double) {
         lifecycleScope.launch {
             viewModel.handleOperation(lat, lng, radius).observe(this@MainActivity, Observer {
-                val placeResultList = it
-                if (placeResultList?.isNotEmpty()!!)
-                    updateMap(placeResultList, lat, lng, radius)
+                if (it?.isNotEmpty()!!)
+                    updateMap(it, lat, lng, radius)
             })
         }
     }
 
     private fun updateMap(listEntry: List<PlaceResult>, lat: Double, lng: Double, radius: Double) {
+
+        map.clear()
 
         val location = LatLng(lat, lng)
 
@@ -111,28 +112,6 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
             )
 
         }
-
-        map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoWindow(arg0: Marker): View? {
-                return null
-            }
-
-            override fun getInfoContents(marker: Marker): View {
-                val info = LinearLayout(baseContext)
-                info.orientation = LinearLayout.VERTICAL
-                val title = TextView(baseContext)
-                title.setTextColor(Color.BLACK)
-                title.gravity = Gravity.CENTER
-                title.setTypeface(null, Typeface.BOLD)
-                title.text = marker.title
-                val snippet = TextView(baseContext)
-                snippet.setTextColor(Color.GRAY)
-                snippet.text = marker.snippet
-                info.addView(title)
-                info.addView(snippet)
-                return info
-            }
-        })
 
         val circleOptions = CircleOptions()
             .center(location)
@@ -168,12 +147,38 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
             .strokeWidth(0f)
 
         val circle = map.addCircle(circleOptions)
+
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
                 circleOptions.center,
                 getZoomLevel(circle)
             )
         )
+        setMapInfoViewAdapter()
+    }
+
+    private fun setMapInfoViewAdapter() {
+        map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+            override fun getInfoWindow(arg0: Marker): View? {
+                return null
+            }
+
+            override fun getInfoContents(marker: Marker): View {
+                val info = LinearLayout(baseContext)
+                info.orientation = LinearLayout.VERTICAL
+                val title = TextView(baseContext)
+                title.setTextColor(Color.BLACK)
+                title.gravity = Gravity.CENTER
+                title.setTypeface(null, Typeface.BOLD)
+                title.text = marker.title
+                val snippet = TextView(baseContext)
+                snippet.setTextColor(Color.GRAY)
+                snippet.text = marker.snippet
+                info.addView(title)
+                info.addView(snippet)
+                return info
+            }
+        })
     }
 
 }

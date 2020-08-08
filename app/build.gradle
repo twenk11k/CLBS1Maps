@@ -111,4 +111,8 @@ dependencies {
     // whatIf
     implementation "com.github.skydoves:whatif:1.0.5"
 
+    // Robolectric
+    testImplementation "org.robolectric:robolectric:4.3.1"
+
+
 }
