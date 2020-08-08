@@ -1,22 +1,25 @@
 package com.twenk11k.clbs1maps
 
 import android.app.Application
-import com.twenk11k.clbs1maps.di.appComponent
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 
-class App: Application() {
+@HiltAndroidApp
+class App : Application() {
+
+    companion object {
+
+        lateinit var application: Application
+
+        fun getContext(): Context {
+            return application.applicationContext
+        }
+
+    }
 
     override fun onCreate() {
         super.onCreate()
-        initKoin()
-    }
-
-    private fun initKoin() {
-        startKoin {
-            androidContext(this@App)
-            modules(appComponent)
-        }
+        application = this
     }
 
 }

@@ -8,7 +8,7 @@
         android:id="@+id/edit_latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/lantitude"
+        android:hint="@string/latitude"
         android:inputType="numberDecimal"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"

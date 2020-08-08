@@ -3,7 +3,8 @@
     <string name="search">Search</string>
     <string name="database">CLBS1Maps.db</string>
     <string name="please_enter_details">Please enter information</string>
-    <string name="lantitude">Lantitude</string>
+    <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="radius">Radius</string>
+    <string name="close">Close</string>
 </resources>
