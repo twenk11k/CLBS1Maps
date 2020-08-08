@@ -158,6 +158,8 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        map.uiSettings.isMapToolbarEnabled = false
+
         val chiangMai = LatLng(18.7717874, 98.9742796)
 
         val circleOptions = CircleOptions()
