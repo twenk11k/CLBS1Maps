@@ -46,7 +46,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private lateinit var mapConstraintLayout: View
     private lateinit var mapRecyclerView: RecyclerView
 
-    // strings
+    // marker strings
     private var placeNameS = ""
     private var latS = ""
     private var lngS = ""
@@ -70,14 +70,14 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         spinnerMap = binding.spinnerMap
         mapConstraintLayout = binding.mapConstraintLayout
         mapRecyclerView = mapConstraintLayout.mapRecyclerView
-        setStrings()
+        setMarkerStrings()
         handleButtonSearchListener()
         initializeSpinnerMap()
         setAdapter()
         setRecyclerView()
     }
 
-    private fun setStrings() {
+    private fun setMarkerStrings() {
         placeNameS = getString(R.string.place_name)
         latS = getString(R.string.lat)
         lngS = getString(R.string.lng)
@@ -107,9 +107,8 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
             override fun onItemSelected(parent: SpinnerMap?, view: View?, position: Int, id: Long) {
                 if (position == 0)
                     mapConstraintLayout.gone()
-                else
+                else if(listPlaceResult.isNotEmpty())
                     mapConstraintLayout.visible()
-
             }
         })
     }
@@ -139,7 +138,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(testlat, testlng, testrad)
+                    handleOperation(lat, lng, testrad)
 
                 }
             }
@@ -158,6 +157,8 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     }
 
     private fun updateAdapter(it: List<PlaceResult>) {
+        if(spinnerMap.getSelectedIndex() == 1)
+            mapConstraintLayout.visible()
         listPlaceResult.clear()
         listPlaceResult.addAll(it)
         adapterPlaceResult.notifyDataSetChanged()
@@ -187,7 +188,6 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                         )}"
                     )
             )
-
         }
 
         val circleOptions = CircleOptions()

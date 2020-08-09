@@ -241,6 +241,10 @@ class SpinnerMap: AppCompatTextView {
         }
     }
 
+    fun getSelectedIndex(): Int {
+        return selectedIndex
+    }
+
     fun attachDataSource(@NonNull list: List<Any>) {
         adapter = SpinnerMapAdapter(list, textColor1, backgroundSelector, spinnerTextFormatter, horizontalAlignment!!)
         setAdapterInternal(adapter!!)
