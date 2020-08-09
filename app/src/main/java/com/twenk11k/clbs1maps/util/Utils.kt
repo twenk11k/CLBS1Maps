@@ -1,4 +1,4 @@
-package com.twenk11k.clbs1maps.ui.util
+package com.twenk11k.clbs1maps.util
 
 import android.location.Location
 import com.google.android.gms.maps.model.Circle
@@ -29,6 +29,10 @@ class Utils {
             val distance = (startPoint.distanceTo(endPoint).toDouble() / 1000)
             val distanceFormatted = String.format("%.2f", distance)
             return distanceFormatted.toDouble()
+        }
+
+        fun convertMeterToKilometer(d: Double): String {
+            return String.format("%.2f",(d * 0.001))
         }
 
     }

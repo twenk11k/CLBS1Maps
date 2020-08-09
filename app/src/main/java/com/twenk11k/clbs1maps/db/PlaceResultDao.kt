@@ -12,7 +12,7 @@ interface PlaceResultDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaceResultList(placeResultList: List<PlaceResult>)
 
-    @Query("SELECT * FROM place_result WHERE endLat = :endLat AND endLng = :endLng AND radius = :radius")
+    @Query("SELECT * FROM place_result WHERE endLat = :endLat AND endLng = :endLng AND radius = :radius ORDER BY placeName ASC")
     suspend fun getPlaceResultList(endLat: Double, endLng: Double, radius: Double): List<PlaceResult>
 
 }

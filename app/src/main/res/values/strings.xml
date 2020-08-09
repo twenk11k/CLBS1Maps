@@ -14,5 +14,6 @@
     <string name="lng">Lng:\u0020</string>
     <string name="distance">Distance:\u0020</string>
     <string name="radius">Radius:\u0020</string>
+    <string name="radius_meter">Radius(m)</string>
 
 </resources>

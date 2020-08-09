@@ -100,7 +100,7 @@ class SpinnerMap: AppCompatTextView {
             }
             isArrowHidden = bundle.getBoolean(IS_ARROW_HIDDEN, false)
             arrowDrawableResId = bundle.getInt(ARROW_DRAWABLE_RES_ID)
-            savedState = bundle.getParcelable<Parcelable>(INSTANCE_STATE)
+            savedState = bundle.getParcelable(INSTANCE_STATE)
         }
         super.onRestoreInstanceState(savedState)
     }

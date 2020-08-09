@@ -9,8 +9,10 @@ import com.skydoves.whatif.whatIfNotNull
 import com.twenk11k.clbs1maps.App
 import com.twenk11k.clbs1maps.db.PlaceResultDao
 import com.twenk11k.clbs1maps.network.MapsClient
-import com.twenk11k.clbs1maps.ui.util.Utils.Companion.calculateDistance
+import com.twenk11k.clbs1maps.util.Utils.Companion.calculateDistance
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -23,7 +25,6 @@ class MainRepository @Inject constructor(
         var placeResultList = placeResultDao.getPlaceResultList(lat, lng, radius)
         if (placeResultList.isEmpty()) {
             val location = "$lat,$lng"
-
             val response = mapsClient.fetchPlaceResponse(location, radius)
             response.suspendOnSuccess {
                 data.whatIfNotNull { response ->
@@ -43,13 +44,13 @@ class MainRepository @Inject constructor(
                     emit(placeResultList)
                 }
             }.onError {
-                Toast.makeText(App.getContext(), message(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(App.getContext(), message(), Toast.LENGTH_LONG).show()
             }.onException {
                 Toast.makeText(App.getContext(), message(), Toast.LENGTH_LONG).show()
             }
         } else {
             emit(placeResultList)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
 }

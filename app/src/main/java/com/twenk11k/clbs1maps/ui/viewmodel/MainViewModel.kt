@@ -7,8 +7,9 @@ import com.twenk11k.clbs1maps.model.PlaceResult
 import com.twenk11k.clbs1maps.repository.MainRepository
 
 
-class MainViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
-    LiveCoroutinesModel() {
+class MainViewModel @ViewModelInject constructor(
+    private val mainRepository: MainRepository
+): LiveCoroutinesModel() {
 
     suspend fun handleOperation(
         latitude: Double,

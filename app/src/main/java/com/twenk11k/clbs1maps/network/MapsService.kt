@@ -9,8 +9,8 @@ interface MapsService {
 
     @GET("json?key=AIzaSyCDxtgGnzqRw8pKxuVDyE1HGkdGDRGnLVU")
     suspend fun fetchPlaceResponse(
-        @Query("location") location: String,
-        @Query("radius") radius: Double
+        @Query("location") location: String = "18.7717874,98.9742796",
+        @Query("radius") radius: Double = 0.0
     ): ApiResponse<PlaceResponse>
 
 }

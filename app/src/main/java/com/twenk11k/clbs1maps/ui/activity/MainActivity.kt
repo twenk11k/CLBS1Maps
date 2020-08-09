@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +23,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.material.textfield.TextInputEditText
 import com.twenk11k.clbs1maps.R
 import com.twenk11k.clbs1maps.common.spinnermap.OnSpinnerItemSelectedListener
 import com.twenk11k.clbs1maps.common.spinnermap.SpinnerMap
@@ -29,8 +30,9 @@ import com.twenk11k.clbs1maps.databinding.ActivityMainBinding
 import com.twenk11k.clbs1maps.extension.gone
 import com.twenk11k.clbs1maps.extension.visible
 import com.twenk11k.clbs1maps.model.PlaceResult
-import com.twenk11k.clbs1maps.ui.util.Utils.Companion.getZoomLevel
 import com.twenk11k.clbs1maps.ui.viewmodel.MainViewModel
+import com.twenk11k.clbs1maps.util.Utils.Companion.convertMeterToKilometer
+import com.twenk11k.clbs1maps.util.Utils.Companion.getZoomLevel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.map_constraint_layout.view.*
 import kotlinx.coroutines.launch
@@ -38,7 +40,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class MainActivity : DataBindingActivity(), OnMapReadyCallback {
+class MainActivity: DataBindingActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var buttonSearch: Button
@@ -60,7 +62,8 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private lateinit var adapterPlaceResult: PlaceResultAdapter
 
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
-    private val viewModel: MainViewModel by viewModels()
+    @VisibleForTesting
+    val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +95,6 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         adapterPlaceResult = PlaceResultAdapter(this, listPlaceResult)
     }
 
-
     private fun setRecyclerView() {
         mapRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
         mapRecyclerView.adapter = adapterPlaceResult
@@ -111,7 +113,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                 if (position == 0) {
                     mapConstraintLayout.gone()
                     zoomCamera()
-                } else if(listPlaceResult.isNotEmpty()) {
+                } else if (listPlaceResult.isNotEmpty()) {
                     mapConstraintLayout.visible()
                 }
             }
@@ -127,11 +129,11 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                 positiveButton(R.string.search) {
                     val customView = getCustomView()
                     val textLatitude =
-                        customView.findViewById<TextInputEditText>(R.id.edit_latitude).text.toString()
+                        customView.findViewById<EditText>(R.id.edit_latitude).text.toString()
                     val textLongitude =
-                        customView.findViewById<TextInputEditText>(R.id.edit_longitude).text.toString()
+                        customView.findViewById<EditText>(R.id.edit_longitude).text.toString()
                     val textRadius =
-                        customView.findViewById<TextInputEditText>(R.id.edit_radius).text.toString()
+                        customView.findViewById<EditText>(R.id.edit_radius).text.toString()
 
                     val lat: Double =
                         if (textLatitude.isNotEmpty()) textLatitude.toDouble() else 0.0
@@ -143,7 +145,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(lat, lng, testrad)
+                    handleOperation(testlat, testlng, radius)
 
                 }
             }
@@ -162,7 +164,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     }
 
     private fun updateAdapter(it: List<PlaceResult>) {
-        if(spinnerMap.getSelectedIndex() == 1)
+        if (spinnerMap.getSelectedIndex() == 1)
             mapConstraintLayout.visible()
         listPlaceResult.clear()
         listPlaceResult.addAll(it)
@@ -175,18 +177,20 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
 
         val location = LatLng(lat, lng)
 
+        val radiusAsKm = convertMeterToKilometer(radius)
+
         map.addMarker(
             MarkerOptions()
                 .position(location)
-                .snippet("$latS$lat" + "\n" + "$lngS$lng" + "\n" + "$radiusS$radius")
+                .snippet("$latS$lat" + "\n" + "$lngS$lng" + "\n" + "$radiusS${radiusAsKm} km")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
         )
 
         for (entry in listEntry) {
-            val location1 = LatLng(entry.geometry.location.lat, entry.geometry.location.lng)
+            val locationEntry = LatLng(entry.geometry.location.lat, entry.geometry.location.lng)
             map.addMarker(
                 MarkerOptions()
-                    .position(location1)
+                    .position(locationEntry)
                     .snippet(
                         "$placeNameS${entry.placeName}" + "\n" + "$latS${entry.geometry.location.lat}" + "\n" + "$lngS${entry.geometry.location.lng}" + "\n" + "$distanceS${entry.geometry.location.distance} ${getString(
                             R.string.km
