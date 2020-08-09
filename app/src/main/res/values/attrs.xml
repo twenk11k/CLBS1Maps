@@ -5,4 +5,14 @@
         <enum name="end" value="1"/>
         <enum name="center" value="2"/>
     </attr>
+    <declare-styleable name="SpinnerMap">
+        <attr format="color" name="arrowTint"/>
+        <attr format="boolean" name="hideArrow"/>
+        <attr format="reference|color" name="arrowDrawable"/>
+        <attr format="dimension" name="dropDownListPaddingBottom"/>
+        <attr format="integer" name="backgroundSelector"/>
+        <attr format="color" name="textTint"/>
+        <attr name="popupTextAlignment"/>
+        <attr format="reference" name="entries"/>
+    </declare-styleable>
 </resources>

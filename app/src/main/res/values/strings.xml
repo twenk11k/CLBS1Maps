@@ -7,4 +7,6 @@
     <string name="longitude">Longitude</string>
     <string name="radius">Radius</string>
     <string name="close">Close</string>
+    <string name="display_on_maps">Display on Maps</string>
+    <string name="display_on_list">Display on List</string>
 </resources>

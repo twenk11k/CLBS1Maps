@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- SpinnerMap starts -->
+    <dimen name="one_and_a_half_grid_unit">12dp</dimen>
+    <dimen name="spinner_scan_list_item_padding">10dp</dimen>
+    <dimen name="text_spinner_scan_size">14sp</dimen>
+    <!-- SpinnerMap ends -->
 
 </resources>

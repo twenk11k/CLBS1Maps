@@ -21,18 +21,25 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.textfield.TextInputEditText
 import com.twenk11k.clbs1maps.R
+import com.twenk11k.clbs1maps.common.spinnermap.OnSpinnerItemSelectedListener
+import com.twenk11k.clbs1maps.common.spinnermap.SpinnerMap
 import com.twenk11k.clbs1maps.databinding.ActivityMainBinding
+import com.twenk11k.clbs1maps.extensions.gone
+import com.twenk11k.clbs1maps.extensions.visible
 import com.twenk11k.clbs1maps.model.PlaceResult
 import com.twenk11k.clbs1maps.ui.util.Utils.Companion.getZoomLevel
 import com.twenk11k.clbs1maps.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : DataBindingActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var buttonSearch: Button
+    private lateinit var spinnerMap: SpinnerMap
+    private lateinit var mapConstraintLayout: View
 
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
     private val viewModel: MainViewModel by viewModels()
@@ -45,7 +52,29 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
 
     private fun setViews() {
         buttonSearch = binding.buttonSearch
+        spinnerMap = binding.spinnerMap
+        mapConstraintLayout = binding.mapConstraintLayout
         handleButtonSearchListener()
+        initializeSpinnerMap()
+    }
+
+    private fun initializeSpinnerMap() {
+        val list = LinkedList(
+            listOf(
+                getString(R.string.display_on_maps),
+                getString(R.string.display_on_list)
+            )
+        )
+        spinnerMap.attachDataSource(list)
+        spinnerMap.setOnSpinnerItemSelectedListener(object : OnSpinnerItemSelectedListener {
+            override fun onItemSelected(parent: SpinnerMap?, view: View?, position: Int, id: Long) {
+                if (position == 0)
+                    mapConstraintLayout.gone()
+                else
+                    mapConstraintLayout.visible()
+
+            }
+        })
     }
 
     private fun handleButtonSearchListener() {
