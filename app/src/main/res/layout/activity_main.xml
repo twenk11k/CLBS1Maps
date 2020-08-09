@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:elevation="2dp"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,6 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_map"
             layout="@layout/map_constraint_layout" />
 
@@ -48,4 +52,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
-

@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/map_constraint_layout"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="match_parent"
     android:background="@android:color/white"
     android:elevation="2dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/map_recycler_view"
+        android:id="@+id/mapRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         />
 

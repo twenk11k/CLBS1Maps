@@ -5,7 +5,6 @@
     <string name="please_enter_details">Please enter information</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-    <string name="radius">Radius</string>
     <string name="close">Close</string>
     <string name="display_on_maps">Display on Maps</string>
     <string name="display_on_list">Display on List</string>
@@ -14,5 +13,6 @@
     <string name="lat">Lat:\u0020</string>
     <string name="lng">Lng:\u0020</string>
     <string name="distance">Distance:\u0020</string>
+    <string name="radius">Radius:\u0020</string>
 
 </resources>

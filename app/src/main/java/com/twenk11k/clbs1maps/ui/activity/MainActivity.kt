@@ -46,6 +46,13 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private lateinit var mapConstraintLayout: View
     private lateinit var mapRecyclerView: RecyclerView
 
+    // strings
+    private var placeNameS = ""
+    private var latS = ""
+    private var lngS = ""
+    private var distanceS = ""
+    private var radiusS = ""
+
     private var listPlaceResult: MutableList<PlaceResult> = ArrayList()
     private lateinit var adapterPlaceResult: PlaceResultAdapter
 
@@ -62,15 +69,24 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         buttonSearch = binding.buttonSearch
         spinnerMap = binding.spinnerMap
         mapConstraintLayout = binding.mapConstraintLayout
-        mapRecyclerView = mapConstraintLayout.map_recycler_view
+        mapRecyclerView = mapConstraintLayout.mapRecyclerView
+        setStrings()
         handleButtonSearchListener()
         initializeSpinnerMap()
         setAdapter()
         setRecyclerView()
     }
 
+    private fun setStrings() {
+        placeNameS = getString(R.string.place_name)
+        latS = getString(R.string.lat)
+        lngS = getString(R.string.lng)
+        distanceS = getString(R.string.distance)
+        radiusS = getString(R.string.radius)
+    }
+
     private fun setAdapter() {
-        adapterPlaceResult = PlaceResultAdapter(this,listPlaceResult)
+        adapterPlaceResult = PlaceResultAdapter(this, listPlaceResult)
     }
 
 
@@ -142,9 +158,9 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     }
 
     private fun updateAdapter(it: List<PlaceResult>) {
-            listPlaceResult.clear()
-            listPlaceResult.addAll(it)
-            adapterPlaceResult.notifyDataSetChanged()
+        listPlaceResult.clear()
+        listPlaceResult.addAll(it)
+        adapterPlaceResult.notifyDataSetChanged()
     }
 
     private fun updateMap(listEntry: List<PlaceResult>, lat: Double, lng: Double, radius: Double) {
@@ -156,17 +172,20 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         map.addMarker(
             MarkerOptions()
                 .position(location)
-                .snippet("lat: $lat" + "\n" + "lng: $lng" + "\n" + "radius: $radius")
+                .snippet("$latS$lat" + "\n" + "$lngS$lng" + "\n" + "$radiusS$radius")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
         )
-
 
         for (entry in listEntry) {
             val location1 = LatLng(entry.geometry.location.lat, entry.geometry.location.lng)
             map.addMarker(
                 MarkerOptions()
                     .position(location1)
-                    .snippet("Place Name: ${entry.placeName}" + "\n" + "lat: ${entry.geometry.location.lat}" + "\n" + "long: ${entry.geometry.location.lng}" + "\n" + "distance: ${entry.geometry.location.distance} km")
+                    .snippet(
+                        "$placeNameS${entry.placeName}" + "\n" + "$latS${entry.geometry.location.lat}" + "\n" + "$lngS${entry.geometry.location.lng}" + "\n" + "$distanceS${entry.geometry.location.distance} ${getString(
+                            R.string.km
+                        )}"
+                    )
             )
 
         }
