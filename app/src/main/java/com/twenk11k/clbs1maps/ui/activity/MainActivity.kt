@@ -53,6 +53,9 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private var distanceS = ""
     private var radiusS = ""
 
+    private var currentLocation = LatLng(18.7717874, 98.9742796)
+    private var currentRadius = 500.0
+
     private var listPlaceResult: MutableList<PlaceResult> = ArrayList()
     private lateinit var adapterPlaceResult: PlaceResultAdapter
 
@@ -105,10 +108,12 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         spinnerMap.attachDataSource(list)
         spinnerMap.setOnSpinnerItemSelectedListener(object : OnSpinnerItemSelectedListener {
             override fun onItemSelected(parent: SpinnerMap?, view: View?, position: Int, id: Long) {
-                if (position == 0)
+                if (position == 0) {
                     mapConstraintLayout.gone()
-                else if(listPlaceResult.isNotEmpty())
+                    zoomCamera()
+                } else if(listPlaceResult.isNotEmpty()) {
                     mapConstraintLayout.visible()
+                }
             }
         })
     }
@@ -190,9 +195,17 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
             )
         }
 
+        currentLocation = location
+        currentRadius = radius
+
+        zoomCamera()
+
+    }
+
+    private fun zoomCamera() {
         val circleOptions = CircleOptions()
-            .center(location)
-            .radius(radius)
+            .center(currentLocation)
+            .radius(currentRadius)
             .strokeWidth(0f)
 
         val circle = map.addCircle(circleOptions)
@@ -202,7 +215,6 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                 getZoomLevel(circle)
             )
         )
-
     }
 
     private fun setMaps() {
@@ -216,11 +228,9 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
 
         map.uiSettings.isMapToolbarEnabled = false
 
-        val chiangMai = LatLng(18.7717874, 98.9742796)
-
         val circleOptions = CircleOptions()
-            .center(chiangMai)
-            .radius(500.0)
+            .center(currentLocation)
+            .radius(currentRadius)
             .strokeWidth(0f)
 
         val circle = map.addCircle(circleOptions)
