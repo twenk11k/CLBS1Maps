@@ -9,4 +9,10 @@
     <string name="close">Close</string>
     <string name="display_on_maps">Display on Maps</string>
     <string name="display_on_list">Display on List</string>
+    <string name="km">km</string>
+    <string name="place_name">Place Name:\u0020</string>
+    <string name="lat">Lat:\u0020</string>
+    <string name="lng">Lng:\u0020</string>
+    <string name="distance">Distance:\u0020</string>
+
 </resources>

@@ -31,7 +31,6 @@ class Utils {
             return distanceFormatted.toDouble()
         }
 
-
     }
 
 }

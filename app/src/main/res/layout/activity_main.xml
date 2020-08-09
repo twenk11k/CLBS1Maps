@@ -10,12 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/map_constraint_layout"
-            layout="@layout/map_constraint_layout"
-            android:visibility="gone"
-            />
-
         <com.twenk11k.clbs1maps.common.spinnermap.SpinnerMap
             android:id="@+id/spinner_map"
             android:layout_width="wrap_content"
@@ -24,6 +18,14 @@
             android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/map_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_map"
+            layout="@layout/map_constraint_layout" />
 
         <Button
             android:id="@+id/button_search"

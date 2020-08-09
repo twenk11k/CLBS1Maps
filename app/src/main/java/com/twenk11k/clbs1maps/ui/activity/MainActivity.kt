@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -24,14 +26,16 @@ import com.twenk11k.clbs1maps.R
 import com.twenk11k.clbs1maps.common.spinnermap.OnSpinnerItemSelectedListener
 import com.twenk11k.clbs1maps.common.spinnermap.SpinnerMap
 import com.twenk11k.clbs1maps.databinding.ActivityMainBinding
-import com.twenk11k.clbs1maps.extensions.gone
-import com.twenk11k.clbs1maps.extensions.visible
+import com.twenk11k.clbs1maps.extension.gone
+import com.twenk11k.clbs1maps.extension.visible
 import com.twenk11k.clbs1maps.model.PlaceResult
 import com.twenk11k.clbs1maps.ui.util.Utils.Companion.getZoomLevel
 import com.twenk11k.clbs1maps.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.map_constraint_layout.view.*
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class MainActivity : DataBindingActivity(), OnMapReadyCallback {
@@ -40,6 +44,10 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private lateinit var buttonSearch: Button
     private lateinit var spinnerMap: SpinnerMap
     private lateinit var mapConstraintLayout: View
+    private lateinit var mapRecyclerView: RecyclerView
+
+    private var listPlaceResult: MutableList<PlaceResult> = ArrayList()
+    private lateinit var adapterPlaceResult: PlaceResultAdapter
 
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
     private val viewModel: MainViewModel by viewModels()
@@ -54,8 +62,21 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
         buttonSearch = binding.buttonSearch
         spinnerMap = binding.spinnerMap
         mapConstraintLayout = binding.mapConstraintLayout
+        mapRecyclerView = mapConstraintLayout.map_recycler_view
         handleButtonSearchListener()
         initializeSpinnerMap()
+        setAdapter()
+        setRecyclerView()
+    }
+
+    private fun setAdapter() {
+        adapterPlaceResult = PlaceResultAdapter(this,listPlaceResult)
+    }
+
+
+    private fun setRecyclerView() {
+        mapRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        mapRecyclerView.adapter = adapterPlaceResult
     }
 
     private fun initializeSpinnerMap() {
@@ -102,7 +123,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(lat, lng, testrad)
+                    handleOperation(testlat, testlng, testrad)
 
                 }
             }
@@ -112,10 +133,18 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
     private fun handleOperation(lat: Double, lng: Double, radius: Double) {
         lifecycleScope.launch {
             viewModel.handleOperation(lat, lng, radius).observe(this@MainActivity, Observer {
-                if (it?.isNotEmpty()!!)
+                if (it?.isNotEmpty()!!) {
                     updateMap(it, lat, lng, radius)
+                    updateAdapter(it)
+                }
             })
         }
+    }
+
+    private fun updateAdapter(it: List<PlaceResult>) {
+            listPlaceResult.clear()
+            listPlaceResult.addAll(it)
+            adapterPlaceResult.notifyDataSetChanged()
     }
 
     private fun updateMap(listEntry: List<PlaceResult>, lat: Double, lng: Double, radius: Double) {
