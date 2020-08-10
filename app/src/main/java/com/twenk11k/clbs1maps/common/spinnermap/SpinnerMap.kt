@@ -111,10 +111,10 @@ class SpinnerMap: AppCompatTextView {
         val defaultPadding = resources.getDimensionPixelSize(R.dimen.one_and_a_half_grid_unit)
 
         gravity = Gravity.CENTER_VERTICAL or Gravity.START
-        setPadding(resources.getDimensionPixelSize(R.dimen.spinner_scan_list_item_padding), defaultPadding, defaultPadding, defaultPadding)
+        setPadding(resources.getDimensionPixelSize(R.dimen.spinner_map_list_item_padding), defaultPadding, defaultPadding, defaultPadding)
         isClickable = true
-        backgroundSelector = typedArray.getResourceId(R.styleable.SpinnerMap_backgroundSelector, R.drawable.rect_selector_spinner_scan)
-        setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimension(R.dimen.text_spinner_scan_size))
+        backgroundSelector = typedArray.getResourceId(R.styleable.SpinnerMap_backgroundSelector, R.drawable.rect_selector_spinner_map)
+        setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimension(R.dimen.text_spinner_map_size))
         setBackgroundResource(backgroundSelector)
         textColor1 = typedArray.getColor(R.styleable.SpinnerMap_textTint, getDefaultTextColor(context))
         setTextColor(textColor1)

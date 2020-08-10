@@ -21,7 +21,7 @@ class MainRepository @Inject constructor(
     private val placeResultDao: PlaceResultDao
 ) {
 
-    suspend fun handleOperation(lat: Double, lng: Double, radius: Double) = flow {
+    suspend fun handleUserInput(lat: Double, lng: Double, radius: Double) = flow {
 
         var placeResultList = placeResultDao.getPlaceResultList(lat, lng, radius)
         if (placeResultList.isEmpty()) {

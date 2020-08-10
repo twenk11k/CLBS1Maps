@@ -11,12 +11,12 @@ class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ): LiveCoroutinesModel() {
 
-    suspend fun handleOperation(
+    suspend fun handleUserInput(
         latitude: Double,
         longitude: Double,
         radius: Double
     ): LiveData<List<PlaceResult>> {
-        return mainRepository.handleOperation(latitude, longitude, radius).asLiveData()
+        return mainRepository.handleUserInput(latitude, longitude, radius).asLiveData()
     }
 
 }

@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,20 +39,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class MainActivity: DataBindingActivity(), OnMapReadyCallback {
+class MainActivity : DataBindingActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var buttonSearch: Button
     private lateinit var spinnerMap: SpinnerMap
     private lateinit var mapConstraintLayout: View
     private lateinit var mapRecyclerView: RecyclerView
-
-    // marker strings
-    private var placeNameS = ""
-    private var latS = ""
-    private var lngS = ""
-    private var distanceS = ""
-    private var radiusS = ""
 
     private var currentLocation = LatLng(18.7717874, 98.9742796)
     private var currentRadius = 500.0
@@ -62,7 +54,6 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
     private lateinit var adapterPlaceResult: PlaceResultAdapter
 
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
-    @VisibleForTesting
     val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,19 +67,10 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
         spinnerMap = binding.spinnerMap
         mapConstraintLayout = binding.mapConstraintLayout
         mapRecyclerView = mapConstraintLayout.mapRecyclerView
-        setMarkerStrings()
         handleButtonSearchListener()
         initializeSpinnerMap()
         setAdapter()
         setRecyclerView()
-    }
-
-    private fun setMarkerStrings() {
-        placeNameS = getString(R.string.place_name)
-        latS = getString(R.string.lat)
-        lngS = getString(R.string.lng)
-        distanceS = getString(R.string.distance)
-        radiusS = getString(R.string.radius)
     }
 
     private fun setAdapter() {
@@ -145,16 +127,16 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(testlat, testlng, testrad)
+                    handleUserInput(testlat, testlng, testrad)
 
                 }
             }
         }
     }
 
-    private fun handleOperation(lat: Double, lng: Double, radius: Double) {
+    private fun handleUserInput(lat: Double, lng: Double, radius: Double) {
         lifecycleScope.launch {
-            viewModel.handleOperation(lat, lng, radius).observe(this@MainActivity, Observer {
+            viewModel.handleUserInput(lat, lng, radius).observe(this@MainActivity, Observer {
                 if (it?.isNotEmpty()!!) {
                     updateMap(it, lat, lng, radius)
                     updateAdapter(it)
@@ -182,7 +164,7 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
         map.addMarker(
             MarkerOptions()
                 .position(location)
-                .snippet("$latS$lat" + "\n" + "$lngS$lng" + "\n" + "$radiusS${radiusAsKm} km")
+                .snippet("Lat: $lat\nLng: $lng\nRadius: $radiusAsKm km")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
         )
 
@@ -192,7 +174,7 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
                 MarkerOptions()
                     .position(locationEntry)
                     .snippet(
-                        "$placeNameS${entry.placeName}" + "\n" + "$latS${entry.geometry.location.lat}" + "\n" + "$lngS${entry.geometry.location.lng}" + "\n" + "$distanceS${entry.geometry.location.distance} ${getString(
+                        "Place Name: ${entry.placeName}" + "\n" + "Lat: ${entry.geometry.location.lat}" + "\n" + "Lng: ${entry.geometry.location.lng}" + "\n" + "Distance: ${entry.geometry.location.distance} ${getString(
                             R.string.km
                         )}"
                     )
@@ -273,7 +255,7 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
     }
 
     override fun onBackPressed() {
-        if(spinnerMap.getSelectedIndex() == 1)  {
+        if (spinnerMap.getSelectedIndex() == 1) {
             spinnerMap.setSelectedIndex(0)
             mapConstraintLayout.gone()
             zoomCamera()
