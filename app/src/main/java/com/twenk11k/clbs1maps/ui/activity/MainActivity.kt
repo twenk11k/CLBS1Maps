@@ -145,7 +145,7 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(lat, lng, radius)
+                    handleOperation(testlat, testlng, testrad)
 
                 }
             }
@@ -270,6 +270,16 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
                 return info
             }
         })
+    }
+
+    override fun onBackPressed() {
+        if(spinnerMap.getSelectedIndex() == 1)  {
+            spinnerMap.setSelectedIndex(0)
+            mapConstraintLayout.gone()
+            zoomCamera()
+        } else {
+            super.onBackPressed()
+        }
     }
 
 }

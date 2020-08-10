@@ -28,12 +28,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/place_name"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
             <TextView
                 android:id="@+id/text_place_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
         </LinearLayout>
@@ -50,12 +53,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lat"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
             <TextView
                 android:id="@+id/text_lat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
         </LinearLayout>
@@ -72,12 +78,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lng"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
             <TextView
                 android:id="@+id/text_lng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
         </LinearLayout>
@@ -94,12 +103,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/distance"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
             <TextView
                 android:id="@+id/text_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark"
+                android:textSize="@dimen/_12ssp"
                 android:maxLines="1" />
 
         </LinearLayout>
