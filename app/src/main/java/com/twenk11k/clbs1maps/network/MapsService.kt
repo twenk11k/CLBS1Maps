@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface MapsService {
 
-    @GET("json?key=AIzaSyCDxtgGnzqRw8pKxuVDyE1HGkdGDRGnLVU")
+    @GET("json?key=YOUR_API_KEY")
     suspend fun fetchPlaceResponse(
         @Query("location") location: String,
         @Query("radius") radius: Double

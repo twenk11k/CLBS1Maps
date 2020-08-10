@@ -16,7 +16,7 @@ open class PlaceLocationTypeConverter {
     }
 
     @TypeConverter
-    fun fromPlaceGeometryType(type: PlaceResult.PlaceGeometry.PlaceLocation): String {
+    fun fromPlaceLocationType(type: PlaceResult.PlaceGeometry.PlaceLocation): String {
         val adapter: JsonAdapter<PlaceResult.PlaceGeometry.PlaceLocation> = moshi.adapter(PlaceResult.PlaceGeometry.PlaceLocation::class.java)
         return adapter.toJson(type)
     }

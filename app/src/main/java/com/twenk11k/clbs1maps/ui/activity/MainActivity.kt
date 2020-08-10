@@ -124,10 +124,7 @@ class MainActivity : DataBindingActivity(), OnMapReadyCallback {
                     val radius: Double =
                         if (textRadius.isNotEmpty()) textRadius.toDouble() else 0.0
 
-                    val testlat = 18.7717874
-                    val testlng = 98.9742796
-                    val testrad = 1000.0
-                    handleUserInput(testlat, testlng, testrad)
+                    handleUserInput(lat, lng, radius)
 
                 }
             }

@@ -25,7 +25,7 @@ abstract class SpinnerMapBaseAdapter(
         val textView: TextView
         var convertView = convertView
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.spinner_map_list_item, null)
+            convertView = View.inflate(context, R.layout.adapter_item_spinner_map, null)
             textView = convertView.findViewById(R.id.text_view_spinner)
             textView.background = ContextCompat.getDrawable(context, backgroundSelector)
             convertView.tag = ViewHolder(textView)

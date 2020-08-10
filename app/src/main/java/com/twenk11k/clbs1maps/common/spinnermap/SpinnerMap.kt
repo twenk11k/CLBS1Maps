@@ -224,11 +224,6 @@ class SpinnerMap: AppCompatTextView {
         }
     }
 
-    /**
-     * Set the default spinner item using its index
-     *
-     * @param position the item's position
-     */
     fun setSelectedIndex(position: Int) {
         if (adapter != null) {
             if (position >= 0 && position <= adapter!!.count) {
@@ -306,12 +301,6 @@ class SpinnerMap: AppCompatTextView {
         setSelectedIndex(position)
     }
 
-    /**
-     * only applicable when popup is shown .
-     * @param view
-     * @param position
-     * @param id
-     */
     fun performItemClick(view: View?, position: Int, id: Int) {
         showDropDown()
         val listView = popupWindow?.listView

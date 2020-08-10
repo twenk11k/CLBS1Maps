@@ -2,6 +2,7 @@ package com.twenk11k.clbs1maps.ui.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.twenk11k.clbs1maps.model.PlaceResult
 import com.twenk11k.clbs1maps.repository.MainRepository
@@ -9,7 +10,7 @@ import com.twenk11k.clbs1maps.repository.MainRepository
 
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
-): LiveCoroutinesModel() {
+): ViewModel() {
 
     suspend fun handleUserInput(
         latitude: Double,

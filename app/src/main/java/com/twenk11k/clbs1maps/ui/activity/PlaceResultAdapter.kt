@@ -6,19 +6,19 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.twenk11k.clbs1maps.R
-import com.twenk11k.clbs1maps.databinding.AdapterPlaceResultBinding
+import com.twenk11k.clbs1maps.databinding.AdapterItemPlaceResultBinding
 import com.twenk11k.clbs1maps.model.PlaceResult
 
 class PlaceResultAdapter(private val context: Context,
-                         var listPlaceResult: MutableList<PlaceResult>
+                         private var listPlaceResult: MutableList<PlaceResult>
                          ): RecyclerView.Adapter<PlaceResultAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): PlaceResultAdapter.ViewHolder {
-        val binding: AdapterPlaceResultBinding = DataBindingUtil.inflate(
+        val binding: AdapterItemPlaceResultBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.adapter_place_result,
+            R.layout.adapter_item_place_result,
             parent,
             false
         )
@@ -33,7 +33,7 @@ class PlaceResultAdapter(private val context: Context,
         holder.bind(listPlaceResult[holder.adapterPosition])
     }
 
-    inner class ViewHolder(val binding: AdapterPlaceResultBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: AdapterItemPlaceResultBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(placeResult: PlaceResult) {
             binding.textPlaceName.text = placeResult.placeName
