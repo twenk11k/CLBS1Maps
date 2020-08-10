@@ -10,6 +10,7 @@ import com.twenk11k.clbs1maps.App
 import com.twenk11k.clbs1maps.db.PlaceResultDao
 import com.twenk11k.clbs1maps.network.MapsClient
 import com.twenk11k.clbs1maps.util.Utils.Companion.calculateDistance
+import com.twenk11k.clbs1maps.util.Utils.Companion.convertMeterToKilometer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -40,8 +41,12 @@ class MainRepository @Inject constructor(
                             lng
                         )
                     }
-                    placeResultDao.insertPlaceResultList(placeResultList)
-                    emit(placeResultList)
+                    val radiusInKm = convertMeterToKilometer(radius).toDouble()
+                    val filteredPlaceResultList =
+                        placeResultList.filter { it.geometry.location.distance <= radiusInKm }
+                            .sortedBy { it.placeName }
+                    placeResultDao.insertPlaceResultList(filteredPlaceResultList)
+                    emit(filteredPlaceResultList)
                 }
             }.onError {
                 Toast.makeText(App.getContext(), message(), Toast.LENGTH_LONG).show()

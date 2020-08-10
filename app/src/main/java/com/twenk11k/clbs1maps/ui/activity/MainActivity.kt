@@ -145,7 +145,7 @@ class MainActivity: DataBindingActivity(), OnMapReadyCallback {
                     val testlat = 18.7717874
                     val testlng = 98.9742796
                     val testrad = 1000.0
-                    handleOperation(testlat, testlng, radius)
+                    handleOperation(lat, lng, radius)
 
                 }
             }
